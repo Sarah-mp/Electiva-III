@@ -7,4 +7,7 @@ from django.shortcuts import render
 
 def index(request):
     print ("hola mundo...")
-    return HttpResponse("Hola mundo..")
+    return HttpResponse("<h1 style='color:blue;'>Hola mundo..</h1> <a href='vender/'>vender</a>")
+
+def vender (request):
+    return HttpResponse("Estamos vendiendo libros...")
