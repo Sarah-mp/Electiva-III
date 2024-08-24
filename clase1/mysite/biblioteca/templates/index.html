@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="UTF-8">
+    <title>ucc-biblioteca</title>
+    <link href="{% static 'css/estilo.css' %}"" rel="stylesheet" />
+</head>
+<body>
+    <h1> hola mundo!!</h1>
+    <img src="{% static 'img/image.png' %}"/>
+    <br>
+    <a href="{% url 'vender' %}">vender</a>
+    <br>
+    <a href="{% url 'prestar_libro'%}">prestar</a>
+    <br>
+    <a href="{% url 'index'%}">index</a>
+
+    <script src = "{% static 'js/funciones.js' %}"></script>
+</body>
+</html>
