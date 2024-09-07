@@ -1,5 +1,8 @@
+from contextlib import redirect_stderr
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .models import*
+from django.contrib import messages
 
 
 # Create your views here.
@@ -26,3 +29,32 @@ def suma(request):
     num1=int(request.POST.get("num1"))
     num2=int(request.POST.get("num2"))
     return HttpResponse(f"la suma es: {num1 + num2}")
+
+
+# Crud de libros
+
+def ver_libros(request):
+    query = Libro.objects.all() # filter   get 
+    contexto = {"libros": query}
+    return render(request, "libros/ver_libros.html",  contexto)
+
+def eliminar_libro(request, id):
+    try:
+        query = Libro.objects.get(pk = id)
+        query.delete()
+        messages.success(request, "El libro fue eliminado correctamente!!")
+    except:
+        messages.error(request, "Ocurrió un error, intente de nuevo...")
+    
+    return redirect(ver_libros)
+
+def agregar_libro(request):
+    if request.method == "POST":
+        #procesar datos
+        pass
+    else:
+        #pintar formulario
+        return render(request,"libros/formulario_libro.html")
+    
+       
+
