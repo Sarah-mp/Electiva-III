@@ -1,15 +1,56 @@
-<form form action="{% url 'agregar_libro' %}" method="post">
-    {% csrf_token %}
-    <label> Título </label>
-    <input type="text" name="titulo" required=""/><br/>
-    <label> Autor </label>
-    <input type="text" name="autor" required=""/><br/>
-    <label> No° de Páginas </label>
-    <input type="number" name="no_paginas" required=""/><br/>
-    <label> Fecha de Publicación </label>
-    <input type="date" name="fecha_publicacion" required=""/><br/>
-    <label> Clasificación </label>
-    <input type="number" name="clasificacion" required=""/><br/>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Aplicación</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    {{libros}}
 
-    <button type="submit"> Guardar</button>
-</form>
+    <form action="{% if libros %} {% url 'editar_libros' libros.id %} {% else%} {% url 'agregar_libro' %} {% endif %}
+    " method="post">
+
+        {% csrf_token %}
+        
+        <div class="container mt-4">
+            <h2>Agregar Libro</h2>
+            <input type="hidden" name="id" value="{{libros.id}}">
+            <div class="form-group">
+                <label for="titulo">Título</label>
+                <input type="text" class="form-control" id="titulo" name="titulo" required="" value="{{libros.titulo}}">
+            </div>
+            <div class="form-group">
+                <label for="autor">Autor</label>
+                <input type="text" class="form-control" id="autor" name="autor" required="" value="{{libros.autor}}">
+            </div>
+            <div class="form-group">
+                <label for="no_paginas">Número de Páginas</label>
+                <input type="number" class="form-control" id="no_paginas" name="no_paginas" required="" value="{{libros.no_paginas}}">
+            </div>
+            <div class="form-group">
+                <label for="fecha_publicacion">Fecha de Publicación</label>
+                <input type="date" class="form-control" id="fecha_publicacion" name="fecha_publicacion" required="" value="{{libros.fecha_publicacion|date:'Y-m-d'}}">
+            </div>
+            <div class="form-group">
+                <label for="clasificacion">Clasificación</label>
+                <select name="clasificacion" class="form-control" id="fecha_publicacion">
+                    <option value="0"></option>
+                    <option value="1" {% if libros.clasificacion == 1 %}selected=""{% endif %}>Romance</option>
+                    <option value="2" {% if libros.clasificacion == 2 %}selected=""{% endif %}>Aventura</option>
+                    <option value="3" {% if libros.clasificacion == 3 %}selected=""{% endif %} >Ficción</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-outline-primary">
+                {% if libros %}
+                Actualizar
+            {% else %}
+                Guardar
+            {% endif %}
+            </button>
+        </div>
+    </form>
+</body>
+</html>

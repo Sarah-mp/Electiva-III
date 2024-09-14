@@ -20,7 +20,7 @@
 
     <h1> Libros </h1>
     <a href="{% url 'agregar_libro' %}">
-        <button type="button" class="btn btn-info">Agregar libro</button>
+        <button type="button" class="btn btn-outline-success">Agregar libro</button>
     </a>
     <br />
     <br />
@@ -46,8 +46,8 @@
                 <td>{{x.fecha_publicacion}}</td>
                 <td>{{x.get_clasificacion_display}}</td>
                 <td> 
-                    <button type="button" class="btn btn-outline-success">Editar</button>
-                    <a href="{% url 'eliminar_libro' x.id %}"><button type="button" class="btn btn-outline-danger" >Eliminar</button></a>
+                    <a href="{% url 'editar_libros' x.id %}"><button type="button" class="btn btn-outline-warning" >Editar</button></a>
+                    <a href="{% url 'eliminar_libro' x.id %}"><button class="btn btn-outline-danger" type="button">Eliminar</button></a>
                 </td>
             </tr>
             {% endfor %}

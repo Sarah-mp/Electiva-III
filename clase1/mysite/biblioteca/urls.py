@@ -14,6 +14,7 @@ urlpatterns = [
     path('ver_libros/', views.ver_libros, name='ver_libros'),  # ruta para ver todos los libros.
     path('eliminar_libro/<int:id>/', views.eliminar_libro, name='eliminar_libro'),  # ruta para eliminar un libro.
     path('agregar_libro/', views.agregar_libro, name='agregar_libro'),  # ruta para agregar un libro.
+    path('editar_libros/<int:id>/', views.editar_libros, name='editar_libros'),  # ruta para editar un libro.
 
 ]
 
