@@ -18,3 +18,14 @@ class Libro(models.Model):
     def __str__(self) -> str:
         return f"Título:{self.titulo} - Autor: {self.autor}"
     
+
+# crear modelo 2
+
+class Reserva(models.Model):
+    usuario = models.CharField(max_length=100, help_text="Nombre del usuario que realiza la reserva")
+    libro = models.ForeignKey('Libro', on_delete=models.CASCADE, help_text="Libro reservado")
+    fecha_reserva = models.DateField(help_text="Fecha en que se realiza la reserva")
+    fecha_devolucion = models.DateField(help_text="Fecha en que debe devolverse el libro")
+
+    def __str__(self):
+        return f"{self.libro.titulo} reservado por {self.usuario} hasta {self.fecha_devolucion}"

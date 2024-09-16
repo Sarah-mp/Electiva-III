@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
+    <h1> Reservas </h1>
+    <a href="{% url 'agregar_reserva' %}">
+        <button type="button" class="btn btn-outline-success">Agregar reserva</button>
+    </a>
+    <br /><br />
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Usuario</th>
+                <th scope="col">Libro</th>
+                <th scope="col">Fecha de Reserva</th>
+                <th scope="col">Fecha de Devolución</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reserva in reservas %}
+            <tr>
+                <td>{{ reserva.id }}</td>
+                <td>{{ reserva.usuario }}</td>
+                <td>{{ reserva.libro.titulo }}</td>
+                <td>{{ reserva.fecha_reserva|date:"Y-m-d" }}</td>
+                <td>{{ reserva.fecha_devolucion|date:"Y-m-d" }}</td>
+                <td> 
+                    <a href="{% url 'editar_reserva' reserva.id %}">
+                        <button type="button" class="btn btn-outline-warning">Editar</button>
+                    </a>
+                    <a href="{% url 'eliminar_reserva' reserva.id %}" onclick="return confirm('¿Estás seguro de que deseas eliminar esta reserva?');">
+                        <button class="btn btn-outline-danger" type="button">Eliminar</button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

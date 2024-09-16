@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservas</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <form action="{% if reserva %} {% url 'editar_reserva' reserva.id %} {% else %} {% url 'agregar_reserva' %} {% endif %}" method="post">
+        {% csrf_token %}
+        <div class="container mt-4">
+            <h2>{% if reserva %}Editar Reserva{% else %}Agregar Reserva{% endif %}</h2>
+            <input type="hidden" name="id" value="{{ reserva.id }}">
+            <div class="form-group">
+                <label for="usuario">Usuario</label>
+                <input type="text" class="form-control" id="usuario" name="usuario" required value="{{ reserva.usuario }}">
+            </div>
+            <div class="form-group">
+                <label for="libro">Libro</label>
+                <select class="form-control" id="libro" name="libro" required>
+                    {% for libro in libros %}
+                    <option value="{{ libro.id }}" {% if reserva and libro.id == reserva.libro.id %}selected{% endif %}>{{ libro.titulo }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="fecha_reserva">Fecha de Reserva</label>
+                <input type="date" class="form-control" id="fecha_reserva" name="fecha_reserva" required value="{{ reserva.fecha_reserva|date:'Y-m-d' }}">
+            </div>
+            <div class="form-group">
+                <label for="fecha_devolucion">Fecha de Devolución</label>
+                <input type="date" class="form-control" id="fecha_devolucion" name="fecha_devolucion" required value="{{ reserva.fecha_devolucion|date:'Y-m-d' }}">
+            </div>
+            <button type="submit" class="btn btn-outline-primary">
+                {% if reserva %}
+                Actualizar
+                {% else %}
+                Guardar
+                {% endif %}
+            </button>
+        </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reservas de Libros</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+   
+</head>
+<body>
+    <h1>Reservas de Libros</h1>
+
+    <h2>Añadir Nueva Reserva</h2>
+    <form method="post">
+        {% csrf_token %}
+        <label for="usuario">Nombre del Usuario:</label>
+        <input type="text" id="usuario" name="usuario" required><br><br>
+
+        <label for="libro">ID del Libro:</label>
+        <input type="number" id="libro" name="libro" required><br><br>
+
+        <label for="fecha_reserva">Fecha de Reserva:</label>
+        <input type="date" id="fecha_reserva" name="fecha_reserva" required><br><br>
+
+        <label for="fecha_devolucion">Fecha de Devolución:</label>
+        <input type="date" id="fecha_devolucion" name="fecha_devolucion" required><br><br>
+
+        <input type="submit" value="Reservar Libro">
+    </form>
+
+    <h2>Lista de Reservas</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Usuario</th>
+                <th>Libro</th>
+                <th>Fecha de Reserva</th>
+                <th>Fecha de Devolución</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reserva in reservas %}
+            <tr>
+                <td>{{ reserva.id }}</td>
+                <td>{{ reserva.usuario }}</td>
+                <td>{{ reserva.libro.titulo }}</td>
+                <td>{{ reserva.fecha_reserva }}</td>
+                <td>{{ reserva.fecha_devolucion }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <a href="{% url 'ver_reservas' %}">Volver a la lista de reservas</a>
+</body>
+</html>

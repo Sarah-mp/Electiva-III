@@ -1,7 +1,7 @@
 from contextlib import redirect_stderr
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .models import*
+from .models import  Libro, Reserva
 from django.contrib import messages
 
 
@@ -102,3 +102,63 @@ def editar_libros(request, id):
         contexto = {"libros": query}
         return render(request, "libros/formulario_libro.html",  contexto)
     
+
+# reservas 
+
+def agregar_reserva(request):
+    if request.method == "POST":
+        usuario = request.POST.get("usuario")
+        libro_id = request.POST.get("libro")
+        fecha_reserva = request.POST.get("fecha_reserva")
+        fecha_devolucion = request.POST.get("fecha_devolucion")
+        try:
+            libro = Libro.objects.get(id=libro_id)
+            reserva = Reserva(
+                usuario=usuario,
+                libro=libro,
+                fecha_reserva=fecha_reserva,
+                fecha_devolucion=fecha_devolucion
+            )
+            reserva.save()
+            messages.success(request, "La reserva fue creada correctamente.")
+        except Exception as e:
+            messages.error(request, f"Ocurrió un error al crear la reserva: {e}")
+        return redirect('ver_reservas')
+    else:
+        libros = Libro.objects.all()
+        return render(request, "libros/agregar_reserva.html", {'libros': libros})
+
+# Vista para ver todas las reservas
+def ver_reservas(request):
+    reservas = Reserva.objects.all()
+    return render(request, "libros/ver_reservas.html", {'reservas': reservas})
+
+# Vista para eliminar una reserva
+def eliminar_reserva(request, id):
+    try:
+        reserva = Reserva.objects.get(id=id)
+        reserva.delete()
+        messages.success(request, "La reserva fue eliminada correctamente.")
+    except Exception as e:
+        messages.error(request, f"Ocurrió un error al eliminar la reserva: {e}")
+    return redirect('ver_reservas')
+
+# Vista para editar una reserva
+def editar_reserva(request, id):
+    try:
+        reserva = Reserva.objects.get(id=id)
+        if request.method == "POST":
+            reserva.usuario = request.POST.get("usuario")
+            libro_id = request.POST.get("libro")
+            reserva.fecha_reserva = request.POST.get("fecha_reserva")
+            reserva.fecha_devolucion = request.POST.get("fecha_devolucion")
+            reserva.libro = Libro.objects.get(id=libro_id)
+            reserva.save()
+            messages.success(request, "La reserva fue actualizada correctamente.")
+            return redirect('ver_reservas')
+        else:
+            libros = Libro.objects.all()
+            return render(request, "libros/editar_reserva.html", {'reserva': reserva, 'libros': libros})
+    except Exception as e:
+        messages.error(request, f"Ocurrió un error al editar la reserva: {e}")
+        return redirect('ver_reservas')
