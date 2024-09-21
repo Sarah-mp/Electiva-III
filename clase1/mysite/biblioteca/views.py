@@ -1,11 +1,40 @@
 from contextlib import redirect_stderr
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .models import  Libro, Reserva
+from .models import  Libro, Reserva,Usuario
 from django.contrib import messages
 
 
 # Create your views here.
+
+def login(request):
+    if request.method == 'POST':
+        correo = request.POST.get('correo')
+        clave = request.POST.get('clave')
+        # select * form Usuario where email = '' and clave = ''
+        try:
+            q = Usuario.objects.get(correo=correo, clave=clave)
+            messages.success(request, 'Bienvenido!!')
+            datos = {
+                "id": q.id,
+                "nombre": q.nombre_completo,
+                "rol": q.rol
+            }
+            request.session['logueado'] = datos
+            return redirect('index')
+
+        except Usuario.DoesNotExist:
+            messages.error(request, 'Usuario o contraseña no válidos.')
+            return redirect('login')
+    else: 
+        return render(request, 'login/login_form.html')
+    
+
+def logout(request):
+    pass
+
+
+
 
 #vistas  basadas en
 

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Libro, Reserva
+from .models import Libro, Reserva, Usuario
 
 # Register your models here.
 class LibroAdmin(admin.ModelAdmin):
@@ -16,3 +16,5 @@ class ReservaAdmin(admin.ModelAdmin):
     search_fields = ['libro__titulo', 'usuario__username']
 
 admin.site.register(Reserva, ReservaAdmin)
+
+admin.site.register(Usuario)

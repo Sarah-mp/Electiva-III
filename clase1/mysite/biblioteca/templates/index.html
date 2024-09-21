@@ -8,6 +8,23 @@
     <link href="{% static 'css/estilo.css' %}" rel="stylesheet" />
 </head>
 <body>
+      <!-- mostrar las notificaciones -->
+{% if messages %}
+{% for message in messages %}
+    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}" role="alert">
+        {{ message }}
+    </div>
+{% endfor %}
+{% endif %}
+    <!-- fin mostrar las notificaciones -->
+    <p>
+        {{request.session.logueado}}<br />
+        ID:{{request.session.logueado.id}}<br />
+        Nombre:{{request.session.logueado.nombre}}<br/>
+        ROL:{{request.session.logueado.rol}}<br />
+    </p>
+
+
     <h1> Hola mundo!!</h1>
     <img src="{% static 'img/image.png' %}" alt="Imagen de Biblioteca"/>
     <br>

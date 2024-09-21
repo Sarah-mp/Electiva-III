@@ -29,3 +29,16 @@ class Reserva(models.Model):
 
     def __str__(self):
         return f"{self.libro.titulo} reservado por {self.usuario} hasta {self.fecha_devolucion}"
+    
+
+class Usuario(models.Model):
+    correo = models.EmailField(max_length= 254, unique = True)
+    nombre_completo = models.CharField(max_length=254)
+    clave = models.CharField(max_length=254)
+    ROLES = (
+        ("A", "Administrador"),
+        ("B", "Bibliotecario"),
+        ("E", "Estudiante")
+    )
+
+    rol = models.CharField(max_length=254,  choices= ROLES, default="E")
