@@ -22,22 +22,7 @@ img {
     margin: 0 auto;
 }
 
-/* Estilo para los enlaces */
-a {
-    display: block;
-    text-align: center;
-    padding: 10px;
-    margin: 10px auto;
-    max-width: 200px;
-    color: #fff;
-    background-color: #007bff;
-    text-decoration: none;
-    border-radius: 5px;
-}
 
-a:hover {
-    background-color: #0056b3;
-}
 
 /* Añadir padding a la página principal */
 .container {

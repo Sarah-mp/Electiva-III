@@ -38,7 +38,7 @@ class Usuario(models.Model):
     ROLES = (
         ("A", "Administrador"),
         ("B", "Bibliotecario"),
-        ("E", "Estudiante")
+        ("E", "Estudiante"),
     )
 
     rol = models.CharField(max_length=254,  choices= ROLES, default="E")

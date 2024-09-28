@@ -14,11 +14,11 @@ def login(request):
         # select * form Usuario where email = '' and clave = ''
         try:
             q = Usuario.objects.get(correo=correo, clave=clave)
-            messages.success(request, 'Bienvenido!!')
+            messages.success(request, f'Bienvenido!!')
             datos = {
-                "id": q.id,
-                "nombre": q.nombre_completo,
-                "rol": q.rol
+                "id":q.id,
+                "nombre":q.nombre_completo,
+                "rol":q.rol
             }
             request.session['logueado'] = datos
             return redirect('index')
@@ -27,26 +27,42 @@ def login(request):
             messages.error(request, 'Usuario o contraseña no válidos.')
             return redirect('login')
     else: 
-        return render(request, 'login/login_form.html')
+        control = request.session.get('logueado', False)
+        if not control:
+         return render(request, 'login/login_form.html')
+        else:
+            return redirect('index')
     
 
 def logout(request):
-    pass
+    try:
+        del request.session['logueado']
+        return redirect('login')
+    except:
+        messages.error(request, "Error, Intente de Nuevo...")
+        return redirect('index')
 
-
+def index(request):
+    control = request.session.get('logueado', False)
+    if control:
+        return render(request, "index.html")
+    else:
+        messages.warning(request, "Por favor inicie sesión...")
+        return redirect('login')
 
 
 #vistas  basadas en
 
-def index(request):
-    print ("hola mundo...")
-    return render(request, "index.html")
-
 def vender (request):
-    return render(request, "vender.html")
+    control = request.session.get('logueado', False)
+    if control and control["rol"] == 'B':
+        messages.info(request, "No estás autorizado para acceder a este módulo...")
+        return redirect('index')
+    else:
+     return render(request, "vernder.html",)
 
 def prestar_libro (request):
-    return render(request, "prestar_libro.html")
+        return render(request, "prestar_libro.html")
 
 def leer(request, num1, num2):
     return HttpResponse(f"la suma es: {num1 + num2} ")
@@ -63,19 +79,32 @@ def suma(request):
 # Crud de libros
 
 def ver_libros(request):
-    query = Libro.objects.all() # filter   get 
-    contexto = {"libros": query}
-    return render(request, "libros/ver_libros.html",  contexto)
+    control = request.session.get('logueado', False)
+    if control:
+        query = Libro.objects.all() # filter   get 
+        contexto = {"libros": query}
+        return render(request, "libros/ver_libros.html",  contexto)
+    else:
+        messages.warning(request, "Por favor inicie sesión...")
+        return redirect('index')
+    
+
+ 
 
 def eliminar_libro(request, id):
-    try:
-        query = Libro.objects.get(pk = id)
-        query.delete()
-        messages.success(request, "El libro fue eliminado correctamente!!")
-    except:
-        messages.error(request, "Ocurrió un error, intente de nuevo...")
-    
-    return redirect(ver_libros)
+    control = request.session.get('logueado', False)
+    if control and control["rol"] == 'A':
+        try:
+            query = Libro.objects.get(pk = id)
+            query.delete()
+            messages.success(request, "El libro fue eliminado correctamente!!")
+        except:
+            messages.error(request, "Ocurrió un error, intente de nuevo...")
+        return redirect(ver_libros)
+
+    else:
+        messages.warning(request, "No estás autorizado para acceder a este módulo...")
+        return redirect('ver_libros')
 
 def agregar_libro(request):
     if request.method == "POST":
