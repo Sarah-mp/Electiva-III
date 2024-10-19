@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Reservas de Libros</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-   
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titul %}Inicio{% endblock%}
+
+{% block contenedor %}
     <h1>Reservas de Libros</h1>
 
     <h2>Añadir Nueva Reserva</h2>
@@ -52,5 +49,4 @@
     </table>
     
     <a href="{% url 'ver_reservas' %}">Volver a la lista de reservas</a>
-</body>
-</html>
+{% endblock %}

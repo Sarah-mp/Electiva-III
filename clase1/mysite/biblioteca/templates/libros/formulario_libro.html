@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Aplicación</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titul %}Formulario{% endblock%}
     {{libros}}
 
+{% block contenedor %}
     <form action="{% if libros %} {% url 'editar_libros' libros.id %} {% else%} {% url 'agregar_libro' %} {% endif %}
     " method="post">
 
@@ -18,22 +13,27 @@
         <div class="container mt-4">
             <h2>Agregar Libro</h2>
             <input type="hidden" name="id" value="{{libros.id}}">
+            <br/>
             <div class="form-group">
                 <label for="titulo">Título</label>
                 <input type="text" class="form-control" id="titulo" name="titulo" required="" value="{{libros.titulo}}">
             </div>
+            <br/>
             <div class="form-group">
                 <label for="autor">Autor</label>
                 <input type="text" class="form-control" id="autor" name="autor" required="" value="{{libros.autor}}">
             </div>
+            <br/>
             <div class="form-group">
                 <label for="no_paginas">Número de Páginas</label>
                 <input type="number" class="form-control" id="no_paginas" name="no_paginas" required="" value="{{libros.no_paginas}}">
             </div>
+            <br/>
             <div class="form-group">
                 <label for="fecha_publicacion">Fecha de Publicación</label>
                 <input type="date" class="form-control" id="fecha_publicacion" name="fecha_publicacion" required="" value="{{libros.fecha_publicacion|date:'Y-m-d'}}">
             </div>
+            <br />
             <div class="form-group">
                 <label for="clasificacion">Clasificación</label>
                 <select name="clasificacion" class="form-control" id="fecha_publicacion">
@@ -43,6 +43,7 @@
                     <option value="3" {% if libros.clasificacion == 3 %}selected=""{% endif %} >Ficción</option>
                 </select>
             </div>
+            <br/>
             <button type="submit" class="btn btn-outline-primary">
                 {% if libros %}
                 Actualizar
@@ -52,5 +53,5 @@
             </button>
         </div>
     </form>
-</body>
-</html>
+
+{% endblock %}

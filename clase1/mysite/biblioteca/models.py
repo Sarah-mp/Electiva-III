@@ -42,3 +42,22 @@ class Usuario(models.Model):
     )
 
     rol = models.CharField(max_length=254,  choices= ROLES, default="E")
+
+    def __str__(self) -> str:
+        return f"{self.nombre_completo}"
+
+
+class Prestamo(models.Model):
+    usuario = models.ForeignKey('Usuario', on_delete=models.DO_NOTHING)
+    libro = models.ForeignKey('Libro', on_delete=models.DO_NOTHING, help_text="Libro reservado")
+    fecha_reserva = models.DateField(auto_now_add = True, blank=False)
+    fecha_devolucion = models.DateField(help_text="Fecha en que debe devolverse el libro")
+    Estados = (
+        (1, "Prestado"),
+        (2, "Reservado"),
+        (3, "Devuelto"),
+        (4, "con novedad"),
+    )
+    estado = models.IntegerField(choices=Estados, default=1)
+    observaciones = models.TextField(null=True, blank=True)
+    

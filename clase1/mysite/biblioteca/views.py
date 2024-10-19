@@ -1,7 +1,7 @@
 from contextlib import redirect_stderr
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .models import  Libro, Reserva,Usuario
+from .models import  Libro, Reserva,Usuario, Prestamo
 from django.contrib import messages
 
 
@@ -59,7 +59,7 @@ def vender (request):
         messages.info(request, "No estás autorizado para acceder a este módulo...")
         return redirect('index')
     else:
-     return render(request, "vernder.html",)
+     return render(request, "vender.html",)
 
 def prestar_libro (request):
         return render(request, "prestar_libro.html")
@@ -220,3 +220,9 @@ def editar_reserva(request, id):
     except Exception as e:
         messages.error(request, f"Ocurrió un error al editar la reserva: {e}")
         return redirect('ver_reservas')
+
+
+def prestamos(request):
+    q = Prestamo.objects.all()
+    contexto = {"data": q}
+    return render(request, 'libros/prestamos.html', contexto)
