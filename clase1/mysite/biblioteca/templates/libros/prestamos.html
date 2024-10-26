@@ -6,8 +6,8 @@
 {% block contenedor %}
 
     <h1> Préstamos </h1>
-    <a href="{% url 'agregar_libro' %}">
-        <button type="button" class="btn btn-outline-success">Agregar libro</button>
+    <a href="{% url 'agregar_prestamo' %}">
+        <button type="button" class="btn btn-outline-success">Agregar Préstamos</button>
     </a>
     <br />
     <br />
@@ -31,8 +31,8 @@
                 <td>{{x.get_estado_display}}</td>
                 <td>{{x.fecha_reserva}}</td>
                 <td> 
-                    <a href="{% url 'editar_libros' x.id %}"><button type="button" class="btn btn-outline-warning" >Editar</button></a>
-                    <a href="{% url 'eliminar_libro' x.id %}"><button class="btn btn-outline-danger" type="button">Eliminar</button></a>
+                    <a href="{% url 'editar_prestamo' x.id %}"><button type="button" class="btn btn-outline-warning" >Editar</button></a>
+                    <a href="{% url 'eliminar_prestamo' x.id %}"><button class="btn btn-outline-danger" type="button">Eliminar</button></a>
                 </td>
             </tr>
             {% endfor %}

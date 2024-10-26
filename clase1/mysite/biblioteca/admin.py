@@ -17,7 +17,11 @@ class ReservaAdmin(admin.ModelAdmin):
 
 admin.site.register(Reserva, ReservaAdmin)
 
-admin.site.register(Usuario)
+class UserAdmin(admin.ModelAdmin):
+    list_display = ['id', 'nombre_completo', 'correo', 'rol']
+
+admin.site.register(Usuario, UserAdmin)
+
 
 @admin.register(Prestamo)
 class PrestamoAdmin(admin.ModelAdmin):

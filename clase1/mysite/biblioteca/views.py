@@ -226,3 +226,88 @@ def prestamos(request):
     q = Prestamo.objects.all()
     contexto = {"data": q}
     return render(request, 'libros/prestamos.html', contexto)
+
+def eliminar_prestamo(request, id):
+    control = request.session.get('logueado', False)
+    if control and control["rol"] == 'A':
+        try:
+            query = Prestamo.objects.get(pk = id)
+            query.delete()
+            messages.success(request, "El préstamo fue eliminado correctamente!!")
+        except:
+            messages.error(request, "Ocurrió un error, intente de nuevo...")
+        return redirect('prestamos')
+
+    else:
+        messages.warning(request, "No estás autorizado para acceder a este módulo...")
+        return redirect('prestamos')
+
+def agregar_prestamo(request):
+    if request.method == "POST":
+        #procesar datos 
+        u = request.POST.get("usuario")
+        usuario = Usuario.objects.get(pk = u)
+        li = request.POST.get("libro")
+        libro = Libro.objects.get(pk = li)
+        fecha_devolucion = request.POST.get("fecha_devolucion")
+        estado = request.POST.get("estado")
+        observaciones = request.POST.get("observaciones")
+
+        # SQl
+        # insert into libros() values(titulo, autor,...)
+        try:
+            query = Prestamo(
+                usuario=usuario, 
+                libro=libro, 
+                fecha_devolucion= fecha_devolucion, 
+                estado = estado,
+                observaciones=observaciones
+                )
+            query.save()
+            messages.success(request, "El préstamo fue agregado correctamente!!")
+        except Exception as e:
+            messages.error(request, f"Ocurrió un error al agregar el pretamo{e}")
+            
+        return redirect('ver_libros')
+
+    else:
+        #pintar formulario
+        usuarios = Usuario.objects.all()
+        libros = Libro.objects.all()
+        contexto = {
+            'users': usuarios, 
+            'books': libros
+        }
+        return render(request,"libros/formulario_prestamos.html", contexto)
+
+def editar_prestamo(request, id):
+    if request.method == "POST":
+        # procesar la actualización de datos
+        try:
+            query = Prestamo.objects.get(pk = id)
+            query.usuario = request.POST.get("usuario")
+            query.autor = request.POST.get("autor")
+            query.fecha_devolucion = request.POST.get("fecha_devolucion")
+            query.estado = request.POST.get("estado")
+            query.observaciones = request.POST.get("observaciones")
+            query.save()
+
+            messages.success(request, "El préstamo fue actualizado correctamente!!")
+        except Exception as e:
+            messages.error(request, f"Ocurrió un error al actualizar el préstamo{e}")
+
+        return redirect("prestamos/")
+
+
+    else:
+        #consultar el registro y mostrar en el formulario los datos actuales
+        query = Prestamo.objects.get(pk = id)
+        usuarios = Usuario.objects.all()
+        libros = Libro.objects.all()
+        contexto = {
+            "prestamos": query,
+            'users': usuarios, 
+            'books': libros
+        }
+        return render(request, "libros/formulario_prestamos.html",  contexto)
+    

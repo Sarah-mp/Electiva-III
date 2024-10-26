@@ -27,6 +27,10 @@ urlpatterns = [
 
     # CRUD de prestamos
     path('prestamos/', views.prestamos, name='prestamos'),
+    path('eliminar_prestamo/<int:id>/', views.eliminar_prestamo, name='eliminar_prestamo'),
+    path('agregar_prestamo/', views.agregar_prestamo, name='agregar_prestamo'),
+    path('editar_prestamo/<int:id>/', views.editar_prestamo, name='editar_prestamo'),   # ruta para agregar un prestamo.  # ruta para agregar un prestamo.   # ruta para agregar un prestamo.   # ruta para agregar un prestamo.   # ruta para agregar un prestamo.   # ruta para agregar un prestamo.   # ruta para agregar un prestamo
+    
 
 ]
 

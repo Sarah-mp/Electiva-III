@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titul %}Formulario{% endblock%}
+    {{libros}}
+
+{% block contenedor %}
+    <form action="{% if libros %} {% url 'editar_prestamo' prestamo.id %} {% else%} {% url 'agregar_prestamo' %} {% endif %}
+    " method="post">
+
+        {% csrf_token %}
+        
+        <div class="container mt-4">
+            <h2>Agregar Préstamos</h2>
+            <input type="hidden" name="id" value="{{prestamos.id}}">
+            <br/>
+            <div class="form-group">
+                <label for="titulo">Usuario</label>
+                <select id="usuario" name="usuario" class="form-control">
+                    <option value="" disabled hidden selected>seleccione el usuario</option> 
+                    {% for user in users %}
+                    <option {% if prestamos.usuario.id == user.id %}selected=""{% endif%}value="{{ user.id }}">{{ user.nombre_completo }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <br/>
+            <div class="form-group">
+                <label for="autor">Libro</label>
+                <select id="usuario" name="usuario" class="form-control">
+                    <option value="" disabled hidden selected>seleccione el Libro</option> 
+                    {% for book in books %}
+                    <option  {% if prestamos.libro.id == book.id %}selected=""{% endif%}value="{{ book.id }}">{{ book.titulo }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <br/>
+            <div class="form-group">
+                <label for="no_paginas">Fecha de Devolución</label>
+                <input type="date" class="form-control" id="fecha_devolucion" name="fecha_devolucion" required="" value="{{prestamos.fecha_devolucion|date:'Y-m-d'}}">
+            </div>
+            <br/>
+            <div class="form-group">
+                <label for="clasificacion">Estado</label>
+                <select name="estado" class="form-control" id="estado">
+                    <option value="0"></option>
+                    <option value="1" {% if prestamos.estado == 1 %}selected=""{% endif %}>Préstado</option>
+                    <option value="2" {% if prestamos.estado == 2 %}selected=""{% endif %}>Renovado</option>
+                    <option value="3" {% if prestamos.estado == 3 %}selected=""{% endif %} >Entregado</option>
+                    <option value="4" {% if prestamos.estado == 4 %}selected=""{% endif %} >Con novedad</option>
+                </select>
+            </div>
+            <br/>
+            <div class="form-group">
+                <label for="fecha_publicacion">Observaciones</label>
+                <textarea id="observaciones" name="observaciones {{prestamos.observaciones} }" class="form-control" ></textarea>
+            </div>
+            <br />
+            <button type="submit" class="btn btn-outline-primary">
+                {% if prestamo %}
+                Actualizar
+            {% else %}
+                Guardar
+            {% endif %}
+            </button>
+        </div>
+    </form>
+
+{% endblock %}

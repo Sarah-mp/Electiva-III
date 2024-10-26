@@ -54,7 +54,7 @@ class Prestamo(models.Model):
     fecha_devolucion = models.DateField(help_text="Fecha en que debe devolverse el libro")
     Estados = (
         (1, "Prestado"),
-        (2, "Reservado"),
+        (2, "Renovado"),
         (3, "Devuelto"),
         (4, "con novedad"),
     )
