@@ -14,6 +14,7 @@ class Libro(models.Model):
         (3, "Ficción"),
     )
     clasificacion = models.IntegerField(choices=CLASIFICAC, default=0 )
+    foto = models.ImageField(upload_to="img/libros", default="img/libros/default.png", null=True, blank=True)
 
     def __str__(self) -> str:
         return f"Título:{self.titulo} - Autor: {self.autor}"

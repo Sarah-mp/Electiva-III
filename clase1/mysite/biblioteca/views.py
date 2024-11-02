@@ -45,7 +45,8 @@ def logout(request):
 def index(request):
     control = request.session.get('logueado', False)
     if control:
-        return render(request, "index.html")
+        libros = Libro.objects.all()
+        return render(request, "index.html", {} )
     else:
         messages.warning(request, "Por favor inicie sesión...")
         return redirect('login')

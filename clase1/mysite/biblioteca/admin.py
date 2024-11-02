@@ -3,7 +3,7 @@ from .models import Libro, Reserva, Usuario, Prestamo
 
 # Register your models here.
 class LibroAdmin(admin.ModelAdmin):
-    list_display = ["id", "titulo", "autor", "no_paginas", "fecha_publicacion", "clasificacion"]
+    list_display = ["id", "titulo", "autor", "no_paginas", "fecha_publicacion", "clasificacion", "foto"]
     search_fields =["titulo", "autor"]
     list_filter = ["clasificacion", "fecha_publicacion"]
 
