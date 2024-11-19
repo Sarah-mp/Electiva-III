@@ -1,0 +1,27 @@
+body {
+    background-color: #f7f9fc;
+    font-family: 'Arial', sans-serif;
+}
+
+.card {
+    border-radius: 10px;
+    background-color: white;
+}
+
+.form-control {
+    border-radius: 5px;
+    border: 1px solid #5b9aa0;
+}
+
+.btn-success {
+    background-color: #5b9aa0;
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #3c7d82;
+}
+
+.text-muted, .text-success {
+    text-decoration: none;
+}

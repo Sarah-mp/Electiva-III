@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titul %}Inicio{% endblock%}
+
+{% block contenedor %}
+    <h1>Hola mundo!!</h1>
+    <img src="{% static 'img/image.png' %}" alt="Imagen de Biblioteca" />
+    <br />
+    {% for lib in libros %}
+    {{ lib }}
+        <img src="{{ lib.foto.url }}" width="20%">
+    {% endfor %}
+
+    <!-- Banner de Bienvenida -->
+ <div class="jumbotron text-center" style="background-color: #46ccee;">
+    <div class="custom-banner">
+         <h1 class="display-4 custom-banner-title">¡Bienvenido a la Proyect  para la  Gestión de Proyectos!</h1>
+         <p class="lead custom-banner-text">Aquí puedes gestionar tus proyectos, tareas y equipos de manera eficiente.</p>
+         <hr class="my-4 custom-banner-separator">
+         <img src="{% static 'img/logo.png' %}" alt="Logo" />
+         <p class="custom-banner-description">¿Listo para comenzar? Inicia sesión o explora nuestras funcionalidades.</p>
+         <a class="btn btn-success btn-lg custom-banner-button" href="/login/" role="button">Iniciar Sesión</a>
+    </div>
+ </div>
+
+{% endblock %}
+ 

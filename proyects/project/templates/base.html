@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Proyect{% endblock %}</title>
+    <!-- Enlace a Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Enlace a tus estilos personalizados -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    {% block css_especial %}{% endblock %}
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'index' %}">
+                <img src="{% static 'img/logo.png' %}" alt="Logo" style="width: 50px;" />Proyect
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Home</a>
+                    </li>
+                </ul>
+            </div>
+            <a class="btn btn-outline-success" href="{% url 'login' %}" role="button">Iniciar Sesión</a>
+        </div>
+    </nav>
+
+
+    <!-- Barra lateral (diferente según el rol) -->
+    <div class="d-flex">
+            <!-- Mostrar barra lateral solo si el bloque se sobrescribe -->
+            {% block mostrar_barra_lateral %}
+            <div class="bg-light border-end p-3" style="width: 250px;">
+                {% block barra_lateral %}{% endblock %}
+            </div>
+            {% endblock %}
+       
+    </div>
+
+    <div class="container">
+        {% block content %}
+         <!-- Banner de Bienvenida -->
+            <div class="jumbotron text-center" style="background-color: #285e79; height:50rem;">
+                <div class="custom-banner">
+                    <h1 class="display-4 custom-banner-title">¡Bienvenido a la Proyect  para la  Gestión de Proyectos!</h1>
+                    <p class="lead custom-banner-text">Aquí puedes gestionar tus proyectos, tareas y equipos de manera eficiente.</p>
+                    <hr class="my-4 custom-banner-separator">
+                    <img src="{% static 'img/contenido.png' %}" alt="Logo" />
+                    <p class="custom-banner-description">¿Listo para comenzar? Inicia sesión o explora nuestras funcionalidades.</p>
+                    <a class="btn btn-success btn-lg custom-banner-button" href="/login/" role="button">Iniciar Sesión</a>
+                </div>
+            </div>
+        
+        {% endblock %}
+    </div>
+
+
+    <!-- Enlace a los scripts de Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    {% block js_especial %}{% endblock %}
+</body>
+</html>

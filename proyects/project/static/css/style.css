@@ -1,0 +1,66 @@
+/* Estilos personalizados para la barra de navegación */
+.custom-navbar {
+    border-bottom: 2px solid #ddd;
+}
+
+.custom-navbar-brand {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Estilos personalizados para el botón de inicio de sesión */
+.custom-login-button {
+    background-color: #007bff;
+    border-color: #007bff;
+    font-weight: bold;
+}
+
+.custom-login-button:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+/* Estilos personalizados para el banner */
+
+.jumbotron.custom-banner {
+    background-color: #46ccee ;
+    padding: 50px 20px;
+  
+}
+
+.custom-banner-title {
+    padding: 2rem;;
+    font-size: 2.5rem;
+    color: #fcfafa;
+}
+
+.custom-banner-text {
+    font-size: 1.2rem;
+    color: #cecbcb;
+}
+
+.custom-banner-separator {
+    border-top: 1px solid #ccc;
+}
+
+.custom-banner-description {
+    font-size: 1rem;
+    color: #cecbcb;
+}
+
+.custom-banner-button {
+    border-color: #28a745;
+    font-weight: bold;
+}
+
+.custom-banner-button:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+/* Estilo personalizado para la imagen del logotipo en la navbar */
+.custom-navbar-logo {
+    height: 40px; /* Ajusta la altura de la imagen según tus necesidades */
+    width: auto; /* Mantiene la proporción de la imagen */
+    margin-right: 10px; /* Espacio entre la imagen y el texto */
+}

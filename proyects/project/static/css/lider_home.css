@@ -1,0 +1,19 @@
+body {
+    background-color: #f7f9fc;
+    font-family: 'Arial', sans-serif;
+    padding: 5rem;
+}
+
+.container {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #5b9aa0;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
