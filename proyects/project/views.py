@@ -69,10 +69,26 @@ def lider_home(request):
 
 # Vista de inicio para el desarrollador
 def desarrollador_home(request):
-    return render(request, 'desarrollador_home.html')
+    # Asegúrate de que el usuario haya iniciado sesión
+    usuario_id = request.session.get('usuario_id')
+    if not usuario_id:
+        return redirect('login')
 
-from django.shortcuts import render, redirect
-from .models import Usuario
+    # Obtén el usuario actual y verifica que sea un Desarrollador
+    usuario = Usuario.objects.get(id=usuario_id)
+    if usuario.rol != 'Desarrollador':
+        return redirect('index')
+
+    # Obtén los equipos en los que el usuario está asignado
+    equipos = Equipo.objects.filter(miembros=usuario)
+
+    # Obtén las tareas asignadas al usuario
+    tareas = Tarea.objects.filter(asignado_a__usuario=usuario)
+
+    return render(request, 'desarrollador_home.html', {
+        'equipos': equipos,
+        'tareas': tareas,
+    })
 
 def gestion_usuarios(request):
     # Obtener todos los usuarios de la base de datos
@@ -267,3 +283,34 @@ def asignar_lider(request):
     equipos = Equipo.objects.all()
 
     return render(request, 'asignar_lider.html', {'lideres': lideres, 'equipos': equipos})
+
+def registrar_desarrollador(request):
+    if request.method == "POST":
+        nombre = request.POST.get("nombre")
+        correo_electronico = request.POST.get("correo_electronico")
+        contrasena = "12345"  # Contraseña predeterminada para todos los desarrolladores
+
+        # Verificar si el correo ya existe
+        if Usuario.objects.filter(correo_electronico=correo_electronico).exists():
+            # Manejar el caso en que el correo ya esté registrado
+            error = "El correo electrónico ya está registrado. Usa uno diferente."
+            return render(request, 'registrar_desarrollador.html', {'error': error})
+
+        # Crear el usuario
+        usuario = Usuario.objects.create(
+            nombre=nombre,
+            correo_electronico=correo_electronico,
+            contrasena=contrasena,
+            rol=Usuario.DESARROLLADOR
+        )
+
+        # Crear el objeto Desarrollador
+        Desarrollador.objects.create(usuario=usuario)
+
+        return redirect('listar_desarrolladores')
+
+    return render(request, 'registrar_desarrollador.html')
+
+def listar_desarrolladores(request):
+    desarrolladores = Desarrollador.objects.all()
+    return render(request, 'listar_desarrolladores.html', {'desarrolladores': desarrolladores})

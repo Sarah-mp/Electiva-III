@@ -1,4 +1,3 @@
-/* Estilo general del cuerpo */
 body {
     background-color: #f7f9fc;
     font-family: 'Arial', sans-serif;
@@ -32,7 +31,6 @@ h2 {
     text-align: center;
 }
 
-/* Estilo de la tabla */
 .table {
     background-color: white;
     border-radius: 5px;
@@ -56,49 +54,6 @@ h2 {
     border-top: 2px solid #5b9aa0;
 }
 
-/* Botones personalizados */
-.btn-primary {
-    background-color: #5b9aa0;
-    border: none;
-}
-
-.btn-primary:hover {
-    background-color: #e2e6ea;
-    color: #468c98;
-}
-
-.btn-warning {
-    background-color: #f0ad4e;
-    border: none;
-    color: white;
-}
-
-.btn-warning:hover {
-    background-color: #ec971f;
-}
-
-.btn-danger {
-    background-color: #d9534f;
-    border: none;
-    color: white;
-}
-
-.btn-danger:hover {
-    background-color: #c9302c;
-}
-
-/* Estilo del modal */
-.modal-header {
-    background-color: #5b9aa0;
-    color: white;
-}
-
-.modal-footer .btn-primary {
-    background-color: #5b9aa0;
-    border: none;
-}
-
-/* Estilo personalizado para la flecha de regreso */
 .flecha-regresar {
     display: inline-flex;
     align-items: center;
@@ -118,15 +73,4 @@ h2 {
 .flecha-regresar:hover {
     background-color: #e2e6ea;
     color: #2d5d8d;
-}
-
-.form-select option {
-    color: #000; /* Color de texto negro */
-    background-color: #ffffff; /* Fondo blanco */
-}
-
-/* Si quieres resaltar la opción seleccionada */
-.form-select option:checked {
-    background-color: #46ccee; /* Fondo azul claro */
-    color: #ffffff; /* Texto blanco */
 }

@@ -2,7 +2,6 @@
 body {
     background-color: #f7f9fc;
     font-family: 'Arial', sans-serif;
-    padding: 5rem;
 }
 
 /* Estilo del contenedor principal */
@@ -11,6 +10,18 @@ body {
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.navbar {
+    background-color: #5b9aa0 !important;
+}
+.navbar-brand{
+    color: white !important;
+}
+button#perfilMenu{
+    color: black !important;;
+    background-color: #ffffff;
+    border-color: #ffffff;
 }
 
 /* Título principal */

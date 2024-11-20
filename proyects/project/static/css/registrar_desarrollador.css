@@ -2,7 +2,7 @@ body {
     background-color: #f7f9fc;
     font-family: 'Arial', sans-serif;
 }
-
+/* Estilo del contenedor principal */
 .container {
     background-color: #ffffff;
     border-radius: 8px;
@@ -21,7 +21,7 @@ button#perfilMenu{
     background-color: #ffffff;
     border-color: #ffffff;
 }
-
+/* Título principal */
 h2 {
     color: #5b9aa0;
     font-weight: bold;
@@ -37,39 +37,6 @@ h2 {
 .btn-primary:hover {
     background-color: #e2e6ea;
     color: #468c98;
-}
-
-.btn-info {
-    background-color: #5b9aa0;
-    border: none;
-    color: white;
-}
-
-.btn-info:hover {
-    background-color: #e2e6ea;
-   color: #468c98;
-}
-
-.bi-person-circle {
-    display: flex;
-    align-items: center;
-}
-.modal-header {
-    background-color: #5b9aa0;
-    color: white;
-}
-
-.modal-footer .btn-primary {
-    background-color: #5b9aa0;
-    border: none;
-}
-
-.alert {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1050;
-    opacity: 0.9;
 }
 
 .flecha-regresar {

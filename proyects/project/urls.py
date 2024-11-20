@@ -25,10 +25,10 @@ urlpatterns = [
     path('tareas/<int:tarea_id>/añadir-comentario/', views.añadir_comentario, name='añadir_comentario'),
     path('tareas/actualizar/<int:tarea_id>/', views.actualizar_tarea, name='actualizar_tarea'),
     path('asignar-lider/', views.asignar_lider, name='asignar_lider'),
-    
-
-
-
+   
 
     # Rutas para las funciones de líder de proyecto
+    path('registrar_desarrollador/', views.registrar_desarrollador, name='registrar_desarrollador'),
+    path('listar_desarrolladores/', views.listar_desarrolladores, name='listar_desarrolladores'),
+    
 ]
