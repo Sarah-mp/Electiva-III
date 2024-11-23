@@ -134,10 +134,27 @@ def eliminar_usuario(request, usuario_id):
 from .models import Equipo
 
 # Vista para listar equipos
+from django.shortcuts import render, get_object_or_404
+from .models import Equipo, Usuario
+
 def listar_equipos(request):
-    equipos = Equipo.objects.all()
-    usuarios = Usuario.objects.all()  # O filtra si solo necesitas desarrolladores
-    return render(request, 'gestion_equipos.html', {'equipos': equipos, 'usuarios': usuarios})
+    equipos = Equipo.objects.prefetch_related('miembros').all()
+    equipos_context = []
+
+    for equipo in equipos:
+        miembros_actuales = equipo.miembros.all()
+        desarrolladores_disponibles = Usuario.objects.filter(rol='Desarrollador').exclude(id__in=miembros_actuales.values_list('id', flat=True))
+        
+        equipos_context.append({
+            'equipo': equipo,
+            'miembros_actuales': miembros_actuales,
+            'desarrolladores_disponibles': desarrolladores_disponibles
+        })
+
+    return render(request, 'gestion_equipos.html', {'equipos_context': equipos_context})
+
+
+
 
 # Vista para crear un equipo
 def crear_equipo(request):
@@ -171,18 +188,22 @@ def editar_equipo(request, equipo_id):
         equipo.miembros.set(usuarios_seleccionados)
 
         return redirect('listar_equipos')
-    
 
-    # Consulta de los miembros actuales y desarrolladores disponibles
+    # Asegúrate de que 'miembros_actuales' y 'desarrolladores_disponibles' se inicializan correctamente
     miembros_actuales = equipo.miembros.all()
-    desarrolladores_disponibles = Usuario.objects.exclude(id__in=miembros_actuales.values_list('id', flat=True))
+    desarrolladores_disponibles = Usuario.objects.filter(rol='Desarrollador').exclude(
+        id__in=miembros_actuales.values_list('id', flat=True)
+    )
 
+    print("Miembros actuales:", list(miembros_actuales.values('id', 'nombre')))
+    print("Desarrolladores disponibles:", list(desarrolladores_disponibles.values('id', 'nombre')))
 
     return render(request, 'editar_equipo.html', {
         'equipo': equipo,
         'miembros_actuales': miembros_actuales,
         'desarrolladores_disponibles': desarrolladores_disponibles,
     })
+
 
 # Vista para eliminar un equipo
 def eliminar_equipo(request, equipo_id):

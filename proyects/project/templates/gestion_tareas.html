@@ -11,13 +11,31 @@
     <link href="{% static 'css/gestion_tareas.css' %}" rel="stylesheet">
 </head>
 <body>
-     <!-- Barra de navegación superior -->
-     <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
         <div class="container-fluid">
-            <span class="navbar-brand">Panel de Líder de Proyecto</span>
+            <!-- Cambiar el título según el rol -->
+            <span class="navbar-brand">
+                {% if request.session.rol == 'Administrador' %}
+                    Panel de Administrador
+                {% elif request.session.rol == 'Líder de Proyecto' %}
+                    Panel de Líder de Proyecto
+                {% elif request.session.rol == 'Desarrollador' %}
+                    Panel de Desarrollador
+                {% endif %}
+            </span>
+    
             <div class="dropdown ms-auto">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="perfilMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-person-circle"></i> Líder de Proyecto
+                    <i class="bi bi-person-circle"></i>
+                    <!-- Cambiar el texto según el rol -->
+                    {% if request.session.rol == 'Administrador' %}
+                        Administrador
+                    {% elif request.session.rol == 'Líder de Proyecto' %}
+                        Líder de Proyecto
+                    {% elif request.session.rol == 'Desarrollador' %}
+                        Desarrollador
+                    {% endif %}
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="perfilMenu">
                     <li><a class="dropdown-item" href="#">Perfil</a></li>
@@ -46,7 +64,7 @@
         <div class="row">
             {% for tarea in tareas %}
                 <div class="col-md-4 mb-3">
-                    <div class="card">
+                    <div class="card {% if tarea.estado == 'Pendiente' %}bg-warning{% elif tarea.estado == 'En Progreso' %}bg-primary text-white{% elif tarea.estado == 'Completada' %}bg-success text-white{% endif %}">
                         <div class="card-body">
                             <h5 class="card-title">{{ tarea.titulo }}</h5>
                             <p class="card-text">Prioridad: {{ tarea.prioridad }}</p>

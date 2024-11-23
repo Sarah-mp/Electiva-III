@@ -14,10 +14,28 @@
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
         <div class="container-fluid">
-            <span class="navbar-brand">Panel de Desarrollador</span>
+            <!-- Cambiar el título según el rol -->
+            <span class="navbar-brand">
+                {% if request.session.rol == 'Administrador' %}
+                    Panel de Administrador
+                {% elif request.session.rol == 'Líder de Proyecto' %}
+                    Panel de Líder de Proyecto
+                {% elif request.session.rol == 'Desarrollador' %}
+                    Panel de Desarrollador
+                {% endif %}
+            </span>
+    
             <div class="dropdown ms-auto">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="perfilMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-person-circle"></i> Desarrollador
+                    <i class="bi bi-person-circle"></i>
+                    <!-- Cambiar el texto según el rol -->
+                    {% if request.session.rol == 'Administrador' %}
+                        Administrador
+                    {% elif request.session.rol == 'Líder de Proyecto' %}
+                        Líder de Proyecto
+                    {% elif request.session.rol == 'Desarrollador' %}
+                        Desarrollador
+                    {% endif %}
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="perfilMenu">
                     <li><a class="dropdown-item" href="#">Perfil</a></li>
@@ -65,18 +83,20 @@
                 <div class="row">
                     {% for tarea in tareas %}
                         <div class="col-md-4 mb-3">
-                            <div class="card">
+                            <div class="card {% if tarea.estado == 'Pendiente' %}bg-warning{% elif tarea.estado == 'En Progreso' %}bg-primary text-white{% elif tarea.estado == 'Completada' %}bg-success text-white{% endif %}">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ tarea.titulo }}</h5>
                                     <p class="card-text">Fecha Límite: {{ tarea.fecha_limite }}</p>
                                     <p class="card-text">Prioridad: {{ tarea.prioridad }}</p>
-                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tareaModal{{ tarea.id }}">Ver Detalles</button>
+                                    <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#tareaModal">Ver Detalles</button>
                                 </div>
                             </div>
                         </div>
+            
+                        </div>
 
                         <!-- Modal para Ver Detalles de la Tarea -->
-                        <div class="modal fade" id="tareaModal{{ tarea.id }}" tabindex="-1" aria-labelledby="tareaModalLabel{{ tarea.id }}" aria-hidden="true">
+                        <div class="modal fade" id="tareaModal" tabindex="-1" aria-labelledby="tareaModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -84,6 +104,7 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
+                                        {% csrf_token %}
                                         <p><strong>Descripción:</strong> {{ tarea.descripcion }}</p>
                                         <p><strong>Estado:</strong> {{ tarea.estado }}</p>
                                         <label for="estado" class="form-label">Actualizar Estado:</label>
@@ -96,7 +117,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                        <button type="button" class="btn btn-success" onclick="guardarCambios('{{ tarea.id }}')">Guardar Cambios</button>
+                                        <button type="button" class="btn btn-success" onclick="guardarCambiosdesarrollador('{{ tarea.id }}')">Guardar Cambios</button>
                                     </div>
                                 </div>
                             </div>

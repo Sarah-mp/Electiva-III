@@ -14,23 +14,41 @@
 <body>
 
      <!-- Barra de navegación superior -->
-     <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-        <div class="container-fluid">
-            <span class="navbar-brand">Panel de Líder de Proyecto</span>
-            <div class="dropdown ms-auto">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="perfilMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-person-circle"></i> Líder de Proyecto
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="perfilMenu">
-                    <li><a class="dropdown-item" href="#">Perfil</a></li>
-                    <li><a class="dropdown-item" href="#">Configuración</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar Sesión</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
 
+     <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+         <div class="container-fluid">
+             <!-- Cambiar el título según el rol -->
+             <span class="navbar-brand">
+                 {% if request.session.rol == 'Administrador' %}
+                     Panel de Administrador
+                 {% elif request.session.rol == 'Líder de Proyecto' %}
+                     Panel de Líder de Proyecto
+                 {% elif request.session.rol == 'Desarrollador' %}
+                     Panel de Desarrollador
+                 {% endif %}
+             </span>
+     
+             <div class="dropdown ms-auto">
+                 <button class="btn btn-secondary dropdown-toggle" type="button" id="perfilMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                     <i class="bi bi-person-circle"></i>
+                     <!-- Cambiar el texto según el rol -->
+                     {% if request.session.rol == 'Administrador' %}
+                         Administrador
+                     {% elif request.session.rol == 'Líder de Proyecto' %}
+                         Líder de Proyecto
+                     {% elif request.session.rol == 'Desarrollador' %}
+                         Desarrollador
+                     {% endif %}
+                 </button>
+                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="perfilMenu">
+                     <li><a class="dropdown-item" href="#">Perfil</a></li>
+                     <li><a class="dropdown-item" href="#">Configuración</a></li>
+                     <li><hr class="dropdown-divider"></li>
+                     <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar Sesión</a></li>
+                 </ul>
+             </div>
+         </div>
+     </nav>
    
     <div class="container mt-4">
         <!-- Flecha para regresar a la página principal -->
@@ -56,78 +74,68 @@
                 </tr>
             </thead>
             <tbody class="table-group-divider">
-                {% for equipo in equipos %}
-                <form method="post" action="{% url 'editar_equipo' equipo.id %}">
+                    {% for equipo_context in equipos_context %}
                     <tr>
-                        <th scope="row">{{ equipo.id }}</th>
-                        <td>{{ equipo.nombre }}</td>
-                        <td>{{ equipo.descripcion }}</td>
+                        <th scope="row">{{ equipo_context.equipo.id }}</th>
+                        <td>{{ equipo_context.equipo.nombre }}</td>
+                        <td>{{ equipo_context.equipo.descripcion }}</td>
                         <td>
-                            <!-- Botones de acciones (Editar/Eliminar) -->
-                            <a class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editarEquipoModal{{ equipo.id }}" >Editar</a>
-                            <a href="{% url 'eliminar_equipo' equipo.id %}" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este equipo?')">Eliminar</a>
-                        
-
-                           <!-- Modal de Edición de Equipo (dentro del bucle) -->
-                            <div class="modal fade" id="editarEquipoModal{{ equipo.id }}" tabindex="-1" aria-labelledby="editarEquipoModalLabel{{ equipo.id }}" aria-hidden="true">
+                            <!-- Botón Editar -->
+                            <a class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editarEquipoModal{{ equipo_context.equipo.id }}">Editar</a>
+                            <a href="{% url 'eliminar_equipo' equipo_context.equipo.id %}" 
+                            class="btn btn-danger btn-sm" 
+                            onclick="return confirm('¿Estás seguro de que deseas eliminar este equipo?')">
+                             Eliminar
+                         </a>
+                            <!-- Modal Editar -->
+                            <div class="modal fade" id="editarEquipoModal{{ equipo_context.equipo.id }}" tabindex="-1" aria-labelledby="editarEquipoModalLabel{{ equipo_context.equipo.id }}" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="editarEquipoModalLabel{{ equipo.id }}">Editar Equipo</h5>
+                                            <h5 class="modal-title" id="editarEquipoModalLabel{{ equipo_context.equipo.id }}">Editar Equipo</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                        <form method="post" action="{% url 'editar_equipo' equipo.id %}">
+                                        <form method="post" action="{% url 'editar_equipo' equipo_context.equipo.id %}">
                                             {% csrf_token %}
                                             <div class="modal-body">
                                                 <div class="mb-3">
                                                     <label for="nombre" class="form-label">Nombre del Equipo</label>
-                                                    <input type="text" class="form-control" id="nombre" name="nombre" value="{{ equipo.nombre }}" required>
+                                                    <input type="text" class="form-control" id="nombre" name="nombre" value="{{ equipo_context.equipo.nombre }}" required>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="descripcion" class="form-label">Descripción</label>
-                                                    <textarea class="form-control" id="descripcion" name="descripcion" required>{{ equipo.descripcion }}</textarea>
+                                                    <textarea class="form-control" id="descripcion" name="descripcion" required>{{ equipo_context.equipo.descripcion }}</textarea>
                                                 </div>
-                                            
-                                               <!-- Miembros Actuales -->
                                                 <div class="mb-3">
                                                     <label class="form-label">Miembros Actuales</label>
                                                     <select multiple class="form-select" id="miembros-actuales" name="miembros_actuales">
-                                                        {% for miembro in miembros_actuales %}
-                                                            <option value="{{ miembro.id }}">{{ miembro.username }}</option>
+                                                        {% for miembro in equipo_context.miembros_actuales %}
+                                                            <option value="{{ miembro.id }}">{{ miembro.nombre }}</option>
                                                         {% endfor %}
-                                             
                                                     </select>
                                                     <small class="form-text text-muted">Miembros que ya están en el equipo.</small>
                                                 </div>
-                                                
-                                               
-                                                <!-- Desarrolladores Disponibles -->
                                                 <div class="mb-3">
                                                     <label class="form-label">Desarrolladores Disponibles</label>
                                                     <select multiple class="form-select" id="desarrolladores-disponibles" name="miembros">
-                                                        {% for usuario in desarrolladores_disponibles %}
-                                                            <option value="{{ usuario.id }}">{{ usuario.username }}</option>
+                                                        {% for usuario in equipo_context.desarrolladores_disponibles %}
+                                                            <option value="{{ usuario.id }}">{{ usuario.nombre }}</option>
                                                         {% endfor %}
-                                            
                                                     </select>
                                                     <small class="form-text text-muted">Desarrolladores disponibles para añadir al equipo.</small>
                                                 </div>
-
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
                             </div>
-
-
                         </td>
                     </tr>
                 {% endfor %}
-                </from>
             </tbody>
         </table>
     </dive>

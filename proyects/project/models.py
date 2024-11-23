@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
 
 # Modelo de Usuario con campo desplegable para el rol
 class Usuario(models.Model):
@@ -20,7 +21,7 @@ class Usuario(models.Model):
     rol = models.CharField(max_length=50, choices=ROLES, default=DESARROLLADOR)
 
     def __str__(self):
-        return f"{self.nombre} ({self.correo_electronico})"
+        return f"{self.nombre} ({self.correo_electronico}) - {self.rol}"
 
 class Equipo(models.Model):
     nombre = models.CharField(max_length=100)
